@@ -1,6 +1,17 @@
 spring:
   application:
     name: ProductCatalogService
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/mysqldb
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
 
 server:
   port: 8080
+
