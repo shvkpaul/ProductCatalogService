@@ -13,7 +13,7 @@ Import this maven project in your IDE (I am using IntelliJ IDEA).
 
 Swagger : http://localhost:8080/swagger-ui/index.html
 
-DB CREATION
+# DB CREATION
 create database productdb;
 
 create user 'product-team'@'%' identified by 'product-team-pass';
