@@ -2,6 +2,7 @@ package org.shvk.productcatalogservice.service;
 
 import lombok.extern.log4j.Log4j2;
 import org.shvk.productcatalogservice.entity.Product;
+import org.shvk.productcatalogservice.exception.ProductCatalogNotFoundException;
 import org.shvk.productcatalogservice.model.ProductCatalogRequest;
 import org.shvk.productcatalogservice.model.ProductCatalogResponse;
 import org.shvk.productcatalogservice.repository.ProductRepository;
@@ -39,7 +40,7 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(
-                        () -> new RuntimeException("Product not found"));
+                        () -> new ProductCatalogNotFoundException("Product not found"));
 
         ProductCatalogResponse productCatalogResponse =
                 ProductCatalogResponse.builder()
