@@ -28,12 +28,15 @@ public class RestExceptionHandler {
         );
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ExceptionHandler({
+            DataIntegrityViolationException.class,
+            ProductQuantityNotSufficientException.class
+    })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         return new ErrorResponse(
-                "Data already present",
+                exception.getMessage(),
                 HttpStatus.BAD_REQUEST
         );
     }

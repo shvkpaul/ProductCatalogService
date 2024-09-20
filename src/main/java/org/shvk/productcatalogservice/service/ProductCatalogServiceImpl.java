@@ -3,6 +3,7 @@ package org.shvk.productcatalogservice.service;
 import lombok.extern.log4j.Log4j2;
 import org.shvk.productcatalogservice.entity.Product;
 import org.shvk.productcatalogservice.exception.ProductCatalogNotFoundException;
+import org.shvk.productcatalogservice.exception.ProductQuantityNotSufficientException;
 import org.shvk.productcatalogservice.model.ProductCatalogRequest;
 import org.shvk.productcatalogservice.model.ProductCatalogResponse;
 import org.shvk.productcatalogservice.repository.ProductRepository;
@@ -38,9 +39,7 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
     public ProductCatalogResponse getProductById(long productId) {
         log.info("Getting product for productId: {}", productId);
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(
-                        () -> new ProductCatalogNotFoundException("Product not found"));
+        Product product = getProduct(productId);
 
         ProductCatalogResponse productCatalogResponse =
                 ProductCatalogResponse.builder()
@@ -51,5 +50,26 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
                         .build();
 
         return productCatalogResponse;
+    }
+
+    @Override
+    public void reduceQuantity(long productId, long quantity) {
+        log.info("Reduce quantity {} for productId: {}", quantity, productId);
+
+        Product product = getProduct(productId);
+
+        if (product.getQuantity() < quantity) {
+            throw new ProductQuantityNotSufficientException("Product does not have sufficient quantity");
+        }
+
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepository.save(product);
+        log.info("Product quantity updated successfully");
+    }
+
+    private Product getProduct(long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(
+                        () -> new ProductCatalogNotFoundException("Product not found"));
     }
 }
