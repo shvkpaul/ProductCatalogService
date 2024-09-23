@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: Product-Catalog-Service
+    name: PRODUCT-CATALOG-SERVICE
   jpa:
     hibernate:
       ddl-auto: update
