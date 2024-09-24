@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 public class ProductCatalogController {
@@ -18,9 +20,9 @@ public class ProductCatalogController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> addProduct(@RequestBody ProductCatalogRequest productCatalogRequest) {
-        long productId = productCatalogService.addProduct(productCatalogRequest);
-        return new ResponseEntity<>(productId, HttpStatus.CREATED);
+    public ResponseEntity<String> addProduct(@RequestBody ProductCatalogRequest productCatalogRequest) {
+        String message = productCatalogService.addProduct(productCatalogRequest);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -29,6 +31,14 @@ public class ProductCatalogController {
     ) {
         ProductCatalogResponse productCatalogResponse =
                 productCatalogService.getProductById(productId);
+
+        return new ResponseEntity<>(productCatalogResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductCatalogResponse>> getAllProduct() {
+        List<ProductCatalogResponse> productCatalogResponse =
+                productCatalogService.getAllProduct();
 
         return new ResponseEntity<>(productCatalogResponse, HttpStatus.OK);
     }
