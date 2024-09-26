@@ -9,6 +9,7 @@ import org.shvk.productcatalogservice.integration.KafkaProducer;
 import org.shvk.productcatalogservice.model.ProductCatalogRequest;
 import org.shvk.productcatalogservice.model.ProductCatalogResponse;
 import org.shvk.productcatalogservice.repository.ProductRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,6 +86,7 @@ public class ProductCatalogServiceImpl implements ProductCatalogService {
     }
 
     @Override
+    @Cacheable(value = "products")
     public List<ProductCatalogResponse> getAllProduct() {
         log.info("Getting all product");
 

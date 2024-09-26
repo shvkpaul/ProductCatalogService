@@ -25,6 +25,10 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  data:
+    redis:
+      host: localhost
+      port: 6379
 #eureka:
 #  instance:
 #    prefer-ip-address: true
