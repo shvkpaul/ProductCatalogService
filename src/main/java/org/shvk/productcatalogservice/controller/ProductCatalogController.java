@@ -27,26 +27,29 @@ public class ProductCatalogController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductCatalogResponse> getProductById(
-            @PathVariable("id") long productId
+        @PathVariable("id") long productId
     ) {
         ProductCatalogResponse productCatalogResponse =
-                productCatalogService.getProductById(productId);
+            productCatalogService.getProductById(productId);
 
         return new ResponseEntity<>(productCatalogResponse, HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductCatalogResponse>> getAllProduct() {
+    public ResponseEntity<List<ProductCatalogResponse>> getAllProduct(
+        @RequestHeader(value = "loggedInUser", required = false) String username
+    ) {
+        System.out.println("Logged in user: " + username);
         List<ProductCatalogResponse> productCatalogResponse =
-                productCatalogService.getAllProduct();
+            productCatalogService.getAllProduct();
 
         return new ResponseEntity<>(productCatalogResponse, HttpStatus.OK);
     }
 
     @PutMapping("/reduceQuantity/{id}")
     public ResponseEntity<String> reduceQuantity(
-            @PathVariable("id") long productId,
-            @RequestParam long quantity
+        @PathVariable("id") long productId,
+        @RequestParam long quantity
     ) {
         productCatalogService.reduceQuantity(productId, quantity);
         return new ResponseEntity<>("Product quantity updated successfully", HttpStatus.OK);
